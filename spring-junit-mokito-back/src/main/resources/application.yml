@@ -1,3 +1,8 @@
 spring:
   profiles:
     include: db
+server:
+  servlet:
+    encoding:
+      force-response: true
+    context-path: /api #base-url
