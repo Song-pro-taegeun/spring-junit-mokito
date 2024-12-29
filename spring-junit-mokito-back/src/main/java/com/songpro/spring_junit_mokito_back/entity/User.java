@@ -11,12 +11,12 @@ import lombok.Data;
 @Table(name = "USER")
 public class User {
     @Id
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID", length = 100)
     private String userId;
 
-    @Column(name = "USER_PWD")
+    @Column(name = "USER_PWD", length = 200)
     private String userPwd;
 
-    @Column(name = "USER_NAME")
+    @Column(name = "USER_NAME", length = 20)
     private String userName;
 }
