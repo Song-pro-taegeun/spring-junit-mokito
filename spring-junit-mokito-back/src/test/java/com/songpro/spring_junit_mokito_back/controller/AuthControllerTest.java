@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -35,6 +36,7 @@ class AuthControllerTest {
     void signIn() throws Exception {
         // Mock 데이터 준비
         // 리턴 값 셋팅
+        // 1. Given 준비 단계
         UserDto mockUser = new UserDto();
         mockUser.setUserId("test");
         mockUser.setUserName("테스트유저");
@@ -45,14 +47,20 @@ class AuthControllerTest {
         Mockito.when(authService.signIn(anyString(), anyString()))
                 .thenReturn(mockUser);
 
-        // API 호출 및 검증
-        mockMvc.perform(get("/auth/signIn")
+        // 2. When 실행 단계
+        // API 호출
+        final ResultActions resultActions = mockMvc.perform(get("/auth/signIn")
                         .param("userId", "test")
                         .param("userPwd", "testPwd")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON));
+
+
+        // 3. then 검증 단계
+        resultActions
                 .andExpect(status().isOk())
                 // 응답 본문이 mockUser 객체의 JSON 표현과 일치하는지 검증. ObjectMapper를 사용하여 객체를 JSON으로 변환
                 .andExpect(content().json(objectMapper.writeValueAsString(mockUser)))
                 .andDo(result -> System.out.println("Response: " + result.getResponse().getContentAsString()));
+
     }
 }
