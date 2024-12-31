@@ -16,12 +16,7 @@ public class AuthService {
 
     public UserDto signIn(String userId, String userPwd){
         User user = userRepository.findByUserIdAndUserPwd(userId, userPwd);
-
-        UserDto userDto = new UserDto();
-        userDto.setUserId(user.getUserId());
-        userDto.setUserName(user.getUserName());
-
-        return userDto;
+        return  modelMapper.map(user, UserDto.class);
     }
 
     public UserDto signUp(ReqUserDto reqUserDto){
